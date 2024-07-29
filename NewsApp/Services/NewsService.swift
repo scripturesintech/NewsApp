@@ -38,7 +38,7 @@ protocol Networkable {
     func fetchData(from url: URL) async throws -> Data
 }
 
-class NetworkManager: Networkable {
+actor NetworkManager: Networkable {
     func fetchData(from url: URL) async throws -> Data {
         let (data, response) = try await URLSession.shared.data(from: url)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
@@ -56,7 +56,10 @@ class NewsService: NewsServiceable {
     init(networkManager: Networkable) {
         self.networkManager = networkManager
     }
+}
 
+extension NewsService {
+    
     func fetchNews() async throws -> [Article] {
         guard let url = URL(string: "\(baseURL)?country=in&apiKey=\(apiKey)") else {
             throw NetworkError.invalidURL

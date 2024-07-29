@@ -8,6 +8,7 @@
 import Foundation
 import Observation
 
+@MainActor
 @Observable
 class NewsViewModel {
     private let newsService: NewsServiceable
@@ -17,7 +18,10 @@ class NewsViewModel {
     init(newsService: NewsServiceable) {
         self.newsService = newsService
     }
+}
 
+extension NewsViewModel {
+    
     func fetchNews() async {
         do {
             articles = try await newsService.fetchNews()

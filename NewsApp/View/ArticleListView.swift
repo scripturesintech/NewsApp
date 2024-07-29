@@ -18,16 +18,7 @@ struct ArticleListView: View {
         NavigationStack {
             List(viewModel.articles) { article in
                 NavigationLink(destination: ArticleDetailView(article: article)) {
-                    VStack(alignment: .leading) {
-                        Text(article.title)
-                            .font(.headline)
-                        if let description = article.description {
-                            Text(description)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    .padding()
+                    newsCard(article: article)
                 }
             }
             .navigationTitle("Top Headlines")
@@ -37,6 +28,23 @@ struct ArticleListView: View {
                 }
             }
         }
+    }
+}
+
+extension ArticleListView {
+    @ViewBuilder
+    func newsCard(article: Article) -> some View {
+        VStack(alignment: .leading) {
+            Text(article.title)
+                .font(.headline)
+                .underline()
+            if let description = article.description {
+                Text(description)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+        }
+        .padding()
     }
 }
 
